@@ -13,19 +13,24 @@ namespace DesafioProjetoHospedagem.Models
             DiasReservados = diasReservados;
         }
 
+        public string descricaoErro = "";
+        public string Mensagem = "";
+
+
         public void CadastrarHospedes(List<Pessoa> hospedes)
         {
             // TODO: Verificar se a capacidade é maior ou igual ao número de hóspedes sendo recebido
             // *IMPLEMENTE AQUI*
-            if (true)
+            bool capacidadeSuite = hospedes.Count <= Suite.Capacidade;
+            if (capacidadeSuite == true)
             {
                 Hospedes = hospedes;
             }
             else
             {
-                // TODO: Retornar uma exception caso a capacidade seja menor que o número de hóspedes recebido
-                // *IMPLEMENTE AQUI*
+                throw new Exception("A suíte não é adequada para a quantidade de hospedes");
             }
+
         }
 
         public void CadastrarSuite(Suite suite)
@@ -37,22 +42,35 @@ namespace DesafioProjetoHospedagem.Models
         {
             // TODO: Retorna a quantidade de hóspedes (propriedade Hospedes)
             // *IMPLEMENTE AQUI*
-            return 0;
+
+            int quantidadeHospedes = 0;
+            if (Hospedes != null)
+            {
+                quantidadeHospedes = Hospedes.Count;
+            }
+            return quantidadeHospedes;
         }
 
         public decimal CalcularValorDiaria()
         {
             // TODO: Retorna o valor da diária
             // Cálculo: DiasReservados X Suite.ValorDiaria
-            // *IMPLEMENTE AQUI*
-            decimal valor = 0;
+            // *IMPLEMENTE AQUI*   
 
-            // Regra: Caso os dias reservados forem maior ou igual a 10, conceder um desconto de 10%
-            // *IMPLEMENTE AQUI*
-            if (true)
+            decimal valor = 0;
+            if (Hospedes != null)
             {
-                valor = 0;
+                valor = Suite.ValorDiaria * DiasReservados;
+                bool promocao10dias = DiasReservados >= 10;
+                // Regra: Caso os dias reservados forem maior ou igual a 10, conceder um desconto de 10%
+                // *IMPLEMENTE AQUI*
+                if (promocao10dias == true)
+                {
+                    decimal valorComDesconto = Decimal.Multiply(valor, 0.1M);
+                    valor = valor - valorComDesconto;
+                }
             }
+
 
             return valor;
         }
